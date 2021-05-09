@@ -1,6 +1,7 @@
 #ifndef _PP_HUB_TITEM_H_
 #define _PP_HUB_TITEM_H_
 #include <3ds.h>
+#include <string>
 
 enum HubItemType
 {
@@ -12,7 +13,7 @@ enum HubItemType
 class HubItem
 {
 public:
-	std::string				uuid;
+	std::string uuid;
 
 	// app name
 	std::string				name;

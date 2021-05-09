@@ -7,6 +7,7 @@
 #include <citro3d.h>
 #include "Color.h"
 #include <map>
+#include <string>
 
 //=========================================================================================
 // Const

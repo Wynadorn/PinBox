@@ -38,8 +38,8 @@ PPSession::~PPSession()
 	CleanUp();
 	// free static buffer
 	free(g_receivedBuffer);
-	free(_ip);
-	free(_port);
+	free(&_ip);
+	free(&_port);
 }
 
 void PPSession::InitTestSession(PPSessionManager* manager, const char* ip, const char* port)
@@ -436,87 +436,85 @@ void PPSession::processMessageData(u8* buffer, size_t size)
 	// process message data	by message type
 	switch (_tmpMessage->GetMessageCode())
 	{
-	case MSG_CODE_REQUEST_NEW_SCREEN_FRAME:
-		_manager->ProcessVideoFrame(buffer, size);
-		break;
-	case MSG_CODE_REQUEST_NEW_AUDIO_FRAME:
-		//TODO: currently audio sleep make it all slow
-		// should be avoid this by doing that in main thread
-		_manager->ProcessAudioFrame(buffer, size);
-		break;
-	case MSG_CODE_RECEIVED_HUB_ITEMS:
-		printf("Got hub items data\n");
-		// On get hub items list
-		u32 cursor = 0;
-		int i = 0;
-		// read number of hub items
-		u16 count = READ_U16(buffer, cursor); cursor += 2;
-		u16 size;
+		case MSG_CODE_REQUEST_NEW_SCREEN_FRAME:
+			_manager->ProcessVideoFrame(buffer, size);
+			break;
+		case MSG_CODE_REQUEST_NEW_AUDIO_FRAME:
+			//TODO: currently audio sleep make it all slow
+			// should be avoid this by doing that in main thread
+			_manager->ProcessAudioFrame(buffer, size);
+			break;
+		case MSG_CODE_RECEIVED_HUB_ITEMS:
+			printf("Got hub items data\n");
+			// On get hub items list
+			u32 cursor = 0;
+			int i = 0;
+			// read number of hub items
+			u16 count = READ_U16(buffer, cursor); cursor += 2;
+			u16 size;
 
-		printf("Count: %d\n", count);
-		// read hub items
-		for(i = 0; i < count; ++i)
-		{
-			printf("> Read item: %d\n", i);
-			HubItem *item = new HubItem();
+			printf("Count: %d\n", count);
+			// read hub items
+			for(i = 0; i < count; ++i)
+			{
+				printf("> Read item: %d\n", i);
+				HubItem *item = new HubItem();
 
-			// read type : 1 bytes
-			u8 type = READ_U8(buffer, cursor); cursor += 1;
-			item->type = type;
-			printf("> Type: %d\n", type);
+				// read type : 1 bytes
+				u8 type = READ_U8(buffer, cursor); cursor += 1;
+				item->type = (HubItemType)type;
+				printf("> Type: %d\n", type);
 
-			// read uuid
-			// size : 2 bytes
-			size = READ_U16(buffer, cursor); cursor += 2;
-			item->uuid.resize(size);
-			memcpy(&item->uuid[0], buffer + cursor, size); 
-			cursor += size;
-			printf("> uuid: %s :%d\n", item->uuid.c_str(), size);
+				// read uuid
+				// size : 2 bytes
+				size = READ_U16(buffer, cursor); cursor += 2;
+				item->uuid.resize(size);
+				memcpy(&item->uuid[0], buffer + cursor, size); 
+				cursor += size;
+				printf("> uuid: %s :%d\n", item->uuid.c_str(), size);
 
-			// read name
-			// size : 2 bytes
-			size = READ_U16(buffer, cursor); cursor += 2;
-			item->name.resize(size);
-			memcpy(&item->name[0], buffer + cursor, size); 
-			cursor += size;
-			printf("> name: %s : %d\n", item->name.c_str(), size);
+				// read name
+				// size : 2 bytes
+				size = READ_U16(buffer, cursor); cursor += 2;
+				item->name.resize(size);
+				memcpy(&item->name[0], buffer + cursor, size); 
+				cursor += size;
+				printf("> name: %s : %d\n", item->name.c_str(), size);
 
-			
+				
 
-			if (type != HUB_SCREEN) {
-				// read thumbnail
-				// size : 4 bytes
-				item->thumbSize = READ_U32(buffer, cursor); 
-				cursor += 4;
-#ifndef USE_CITRA
-				// only work on N3ds device
-				PPGraphics::Get()->AddCacheImage(&buffer[cursor], item->thumbSize, item->uuid);
-#else
-				// Work around because of add direct buffer to cache make image unexpected behaviour
-				std::string fname = "pinbox/tmp/" + item->uuid + ".png";
-				if (PPGraphics::Get()->AddCacheImage(fname.c_str(), item->uuid) == nullptr) {
-					printf("Write cache file: %s\n", fname.c_str());
-					// save to file
-					FILE *f = fopen(fname.c_str(), "wb");
-					if (f != NULL)
-					{
-						fwrite(buffer + cursor, sizeof(u8), item->thumbSize, f);
-						fclose(f);
-						PPGraphics::Get()->AddCacheImage(fname.c_str(), item->uuid);
+				if (type != HUB_SCREEN) {
+					// read thumbnail
+					// size : 4 bytes
+					item->thumbSize = READ_U32(buffer, cursor); 
+					cursor += 4;
+	#ifndef USE_CITRA
+					// only work on N3ds device
+					PPGraphics::Get()->AddCacheImage(&buffer[cursor], item->thumbSize, item->uuid);
+	#else
+					// Work around because of add direct buffer to cache make image unexpected behaviour
+					std::string fname = "pinbox/tmp/" + item->uuid + ".png";
+					if (PPGraphics::Get()->AddCacheImage(fname.c_str(), item->uuid) == nullptr) {
+						printf("Write cache file: %s\n", fname.c_str());
+						// save to file
+						FILE *f = fopen(fname.c_str(), "wb");
+						if (f != NULL)
+						{
+							fwrite(buffer + cursor, sizeof(u8), item->thumbSize, f);
+							fclose(f);
+							PPGraphics::Get()->AddCacheImage(fname.c_str(), item->uuid);
+						}
 					}
+	#endif
+					cursor += item->thumbSize;
 				}
-#endif
-				cursor += item->thumbSize;
+
+				_hubItems.push_back(item);
 			}
 
-			_hubItems.push_back(item);
-		}
-
-		_manager->SetBusyState(BS_NONE);
-		_manager->SetSessionState(SS_PAIRED);
-		break;
-	default: 
-		break;
+			_manager->SetBusyState(BS_NONE);
+			_manager->SetSessionState(SS_PAIRED);
+			break;
 	}
 }
 
@@ -608,7 +606,10 @@ void PPSession::SendMsgRequestHubItems()
 //-----------------------------------------------------
 bool PPSession::SendMsgSendInputData(u32 down, u32 up, short cx, short cy, short ctx, short cty)
 {
-	if (!isSessionStarted) return;
+	if (!isSessionStarted)
+	{
+		return false;
+	}
 	PPMessage *msg = new PPMessage();
 	msg->BuildMessageHeader(MSG_CODE_SEND_INPUT_CAPTURE);
 	//-----------------------------------------------

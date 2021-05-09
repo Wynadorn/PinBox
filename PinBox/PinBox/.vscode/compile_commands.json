@@ -1,0 +1,38 @@
+[
+    {
+        "arguments": [
+            "arm-none-eabi-g++",
+            "-c",
+            "-g",
+            "-v",
+            "-Wall",
+            "-Og",
+            "-mword-relocations",
+            "-w",
+            "-fomit-frame-pointer",
+            "-ffunction-sections",
+            "-I",
+            "/opt/devkitpro/portlibs/3ds/include/opus",
+            "-march=armv6k",
+            "-mtune=mpcore",
+            "-mfloat-abi=hard",
+            "-mtp=soft",
+            "-I/mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/include",
+            "-I/opt/devkitpro/libctru/include",
+            "-I/opt/devkitpro/portlibs/switch/include",
+            "-I/opt/devkitpro/portlibs/3ds/include",
+            "-I/mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build",
+            "-DARM11",
+            "-D_3DS",
+            "-fno-rtti",
+            "-fno-exceptions",
+            "-std=gnu++11",
+            "-ffast-math",
+            "-o",
+            "PPGraphics.o",
+            "../source/PPGraphics.cpp"
+        ],
+        "directory": "/mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build",
+        "file": "../source/PPGraphics.cpp"
+    }
+]

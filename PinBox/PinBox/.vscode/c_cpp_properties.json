@@ -1,0 +1,33 @@
+{
+    "configurations": [
+        {
+            "name": "3DS",
+            "includePath": [
+                "${default}",
+                "${DEVKITPRO}/**"
+            ],
+            "defines": [
+                "_DEBUG",
+                "_UNICODE",
+                "WIN32",
+                "ARM7",
+                "ARM9"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "${workspaceFolder}/include/**",
+                    "${DEVKITPRO}/libnds/include/**",
+                    "${DEVKITPRO}/devkitARM/arm-none-eabi/include/**"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++11",
+            "intelliSenseMode": "linux-gcc-arm",
+            "compilerPath": "${DEVKITPRO}/devkitARM/bin/arm-none-eabi-g++"
+        }
+    ],
+    "version": 4
+}

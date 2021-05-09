@@ -1,0 +1,159 @@
+wyn@Janos-PC:$ make all
+    vshader.v.pica
+    PPSession.cpp
+    Using built-in specs.
+    COLLECT_GCC=arm-none-eabi-g++
+    Target: arm-none-eabi
+
+    Configured with: ../../gcc-11.1.0/configure
+        --enable-languages=c,c++,objc,lto
+        --with-gnu-as
+        --with-gnu-ld
+        --with-gcc
+        --with-march=armv4t
+        --enable-cxx-flags=-ffunction-sections
+        --disable-libstdcxx-verbose
+        --enable-poison-system-directories
+        --enable-interwork
+        --enable-multilib
+        --enable-threads
+        --disable-win32-registry
+        --disable-nls
+        --disable-debug
+        --disable-libmudflap
+        --disable-libssp
+        --disable-libgomp
+        --disable-libstdcxx-pch
+        --enable-libstdcxx-time=yes
+        --enable-libstdcxx-filesystem-ts
+        --target=arm-none-eabi
+        --with-newlib
+        --with-headers=../../newlib-4.1.0/newlib/libc/include
+        --prefix=/home/davem/projects/devkitpro/tool-packages/devkitARM/src/build/devkitARM
+        --enable-lto
+        --with-system-zlib
+        --disable-tm-clone-registry
+        --disable-__cxa_atexit
+        --with-bugurl=http://wiki.devkitpro.org/index.php/Bug_Reports
+        --with-pkgversion='devkitARM release 56'
+        --build=x86_64-unknown-linux-gnu
+        --with-gmp=/opt/devkitpro/crosstools/x86_64-linux-gnu
+        --with-mpfr=/opt/devkitpro/crosstools/x86_64-linux-gnu
+        --with-mpc=/opt/devkitpro/crosstools/x86_64-linux-gnu
+        --with-isl=/opt/devkitpro/crosstools/x86_64-linux-gnu
+        --with-zstd=/opt/devkitpro/crosstools/x86_64-linux-gnu
+
+    Thread model: single
+    Supported LTO compression algorithms: zlib zstd
+    gcc version 11.1.0 (devkitARM release 56)
+
+    COLLECT_GCC_OPTIONS=
+        '-MMD'
+        '-MP'
+        '-MF'
+        '/mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build/PPSession.d'
+        '-v'
+        '-g'
+        '-Wall'
+        '-Og'
+        '-mword-relocations'
+        '-fomit-frame-pointer'
+        '-ffunction-sections'  '-mtune=mpcore'
+        '-mfloat-abi=hard'
+        '-mtp=soft'
+        '-I'
+        '/mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/include'
+        '-I'
+        '/opt/devkitpro/libctru/include'
+        '-I'
+        '/mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build'
+        '-D'
+        'ARM11'
+        '-D'
+        '_3DS'
+        '-fno-rtti'
+        '-fno-exceptions'
+        '-std=gnu++11'
+        '-c'
+        '-o'
+        'PPSession.o'
+        '-marm'
+        '-march=armv6k'
+        /opt/devkitpro/devkitARM/bin/../libexec/gcc/arm-none-eabi/11.1.0/cc1plus
+        -quiet
+        -v 
+        -I /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/include 
+        -I /opt/devkitpro/libctru/include 
+        -I /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build
+        -imultilib armv6k/fpu
+        -iprefix /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/
+        -MMD PPSession.d
+        -MF /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build/PPSession.d
+        -MP
+        -MQ PPSession.o
+        -D__USES_INITFINI__
+        -D ARM11
+        -D _3DS /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/source/PPSession.cpp
+        -quiet
+        -dumpbase PPSession.cpp
+        -dumpbase-ext .cpp
+        -mword-relocations
+        -mtune=mpcore
+        -mfloat-abi=hard
+        -mtp=soft
+        -marm
+        -march=armv6k
+        -g
+        -Og
+        -Wall
+        -std=gnu++11
+        -version
+        -fomit-frame-pointer
+        -ffunction-sections
+        -fno-rtti
+        -fno-exceptions
+        -o /tmp/cchYNsmR.s
+
+
+    GNU C++11 (devkitARM release 56) version 11.1.0 (arm-none-eabi)
+            compiled by GNU C version 6.3.0 20170516, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+    GGC heuristics:
+        --param ggc-min-expand=100
+        --param ggc-min-heapsize=131072
+        ignoring nonexistent directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/sys-include"
+        ignoring duplicate directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include/c++/11.1.0"
+        ignoring duplicate directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include/c++/11.1.0/arm-none-eabi/armv6k/fpu"
+        ignoring duplicate directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include/c++/11.1.0/backward"
+        ignoring duplicate directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/include"
+        ignoring duplicate directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/include-fixed"
+        ignoring nonexistent directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/sys-include"
+        ignoring duplicate directory "/opt/devkitpro/devkitARM/bin/../lib/gcc/../../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+        /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/include
+        /opt/devkitpro/libctru/include
+        /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/build
+        /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include/c++/11.1.0
+        /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include/c++/11.1.0/arm-none-eabi/armv6k/fpu
+        /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include/c++/11.1.0/backward
+        /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/include
+        /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/include-fixed
+        /opt/devkitpro/devkitARM/bin/../lib/gcc/arm-none-eabi/11.1.0/../../../../arm-none-eabi/include
+    End of search list.
+
+    GNU C++11 (devkitARM release 56) version 11.1.0 (arm-none-eabi)
+            compiled by GNU C version 6.3.0 20170516, GMP version 6.1.0, MPFR version 3.1.4, MPC version 1.0.3, isl version isl-0.18-GMP
+
+    GGC heuristics:
+        --param ggc-min-expand=100
+        --param ggc-min-heapsize=131072
+    
+    Compiler executable checksum: 6580ae9a17112470fe540ac470a38731
+    In file included from /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/source/PPSession.cpp:3:
+    /mnt/c/Users/Janos/Source/PinBox/PinBox/PinBox/include/PPSessionManager.h:4:10: fatal error: webp/decode.h: No such file or directory
+        4 | #include <webp/decode.h>
+        |          ^~~~~~~~~~~~~~~
+    compilation terminated.
+    make[1]: *** [/opt/devkitpro/devkitARM/base_rules:80: PPSession.o] Error 1
+    make: *** [Makefile:174: all] Error 2
