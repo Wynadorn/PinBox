@@ -1,7 +1,3 @@
-#pragma once
-#ifndef _PP_GRAPHICS_H_
-#define _PP_GRAPHICS_H_
-
 #include <3ds.h>
 #include <3ds/gfx.h>
 #include <citro3d.h>

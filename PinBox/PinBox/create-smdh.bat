@@ -1,1 +1,0 @@
-start smdhtool --create "PinBox" "3DS Client - PC Desktop Streaming" "Namkazt" "E:\3ds\PinBoxStreaming\PinBox\PinBox\assets\icon.png" Pinbox.smdh

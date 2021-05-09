@@ -31,32 +31,33 @@ include $(DEVKITARM)/3ds_rules
 #     - icon.png
 #     - <libctru folder>/default_icon.png
 #---------------------------------------------------------------------------------
-TARGET		:=	PinBox
+TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
 INCLUDES	:=	include
 GRAPHICS	:=	gfx
-#GFXBUILD	:=	$(BUILD)
-ROMFS		:=	romfs
-GFXBUILD	:=	$(ROMFS)/gfx
+GFXBUILD	:=	$(BUILD)
+#ROMFS		:=	romfs
+#GFXBUILD	:=	$(ROMFS)/gfx
 
 #---------------------------------------------------------------------------------
-APP_TITLE					:= PinBox
-APP_DESCRIPTION				:= 3DS Client - PC Desktop Streaming
-APP_AUTHOR					:= Namkazt
-APP_PRODUCT_CODE			:= CTR-P-PINBOX
-APP_UNIQUE_ID				:= 0x18EF
-APP_ENCRYPTED				:= false
+# APP_TITLE					:= 
+# APP_DESCRIPTION			:= 
+# APP_AUTHOR				:= 
+# APP_PRODUCT_CODE			:= CTR-P-
+# APP_UNIQUE_ID				:= 0x
+# APP_ENCRYPTED				:= false
 
 #---------------------------------------------------------------------------------
 # options for code generation
 #---------------------------------------------------------------------------------
 ARCH	:=	-march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft
 
-CFLAGS	:=	-g -v -Wall -Og -mword-relocations -w \
-			-fomit-frame-pointer -ffunction-sections \
-			-I $(PORTLIBS_PATH)/3ds/include/opus \
+CFLAGS	:=	-g -Wall -O2 -mword-relocations \
+			-ffunction-sections \
+ 			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
+			-ffast-math \
 			$(ARCH)
 
 CFLAGS	+=	$(INCLUDE) -DARM11 -D_3DS
@@ -66,17 +67,17 @@ CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions -std=gnu++11 -ffast-math
 ASFLAGS	:=	-g $(ARCH)
 LDFLAGS	=	-specs=3dsx.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 
+#---------------------------------------------------------------------------------
+# any extra libraries we wish to link with the project
+#---------------------------------------------------------------------------------
 LIBS	:= -lcitro2d -lcitro3d -lctru -lm
-
+ 
+ 
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-#LIBDIRS	:= $(CTRULIB)
-#PORTLIBS := $(DEVKITPRO)/portlibs/3ds $(DEVKITPRO)/portlibs/3ds
-PORTLIBS := $(PORTLIBS_PATH)/switch $(PORTLIBS_PATH)/3ds
 LIBDIRS	:= $(CTRULIB) $(PORTLIBS) $(ADDITION_LIBS)
-#ADDITION_LIBS := $(DEVKITPRO)/libwebp $(DEVKITPRO)/libcitro3d
 
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -89,8 +90,8 @@ export OUTPUT	:=	$(CURDIR)/$(TARGET)
 export TOPDIR	:=	$(CURDIR)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-			$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir)) \
-			$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+					$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir)) \
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
@@ -193,21 +194,6 @@ endif
 clean:
 	@echo clean ...
 	@rm -fr $(BUILD) $(TARGET).3dsx $(OUTPUT).smdh $(TARGET).elf $(GFXBUILD)
-
-#---------------------------------------------------------------------------------
-cia: $(TARGET)-strip.elf
-	@$(CURDIR)/tools/makerom32.exe -f cia -o $(TARGET).cia -elf $(TARGET)-strip.elf -rsf $(CURDIR)/$(TARGET).rsf -exefslogo -target t
-#---------------------------------------------------------------------------------
-citra: $(BUILD)
-	$(CURDIR)/tools/citra/citra.exe $(TARGET).3dsx
-#---------------------------------------------------------------------------------
-citra-qt: $(BUILD)
-	$(CURDIR)/tools/citra/citra-qt.exe $(TARGET).3dsx
-#---------------------------------------------------------------------------------
-$(GFXBUILD)/%.t3x	$(BUILD)/%.h	:	%.t3s
-#---------------------------------------------------------------------------------
-	@echo $(notdir $<)
-	@tex3ds -i $< -H $(BUILD)/$*.h -d $(DEPSDIR)/$*.d -o $(GFXBUILD)/$*.t3x
 
 #---------------------------------------------------------------------------------
 else

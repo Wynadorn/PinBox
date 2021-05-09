@@ -1,1 +1,0 @@
-start make clean & make all & make PinBox-strip.elf & make cia

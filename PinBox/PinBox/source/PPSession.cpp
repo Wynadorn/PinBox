@@ -1,3 +1,7 @@
+#pragma once
+#ifndef _PP_GRAPHICS_H_
+#define _PP_GRAPHICS_H_
+
 #include "PPSession.h"
 #include "PPGraphics.h"
 #include "PPSessionManager.h"
